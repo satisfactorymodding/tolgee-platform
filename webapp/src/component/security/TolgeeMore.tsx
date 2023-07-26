@@ -13,7 +13,7 @@ export function TolgeeMore() {
         <T
           keyName="login_tolgee_website_link"
           params={{
-            link: <Link href="https://tolgee.io" target="_blank" />,
+            link: <Link href="https://discord.gg/xkVJ73E" target="_blank" />,
           }}
         />
       </Typography>
@@ -22,7 +22,12 @@ export function TolgeeMore() {
         <T
           keyName="login_tolgee_documentation_link"
           params={{
-            link: <Link href="https://tolgee.io/platform" target="_blank" />,
+            link: (
+              <Link
+                href="https://docs.ficsit.app/satisfactory-modding/latest/Development/Localization.html"
+                target="_blank"
+              />
+            ),
           }}
         />
       </Typography>
