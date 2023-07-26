@@ -5,6 +5,7 @@ import { AppState } from 'tg.store/index';
 import { DashboardPage } from 'tg.component/layout/DashboardPage';
 import { CompactView } from 'tg.component/layout/CompactView';
 import { T, useTranslate } from '@tolgee/react';
+import { Link } from '@mui/material';
 
 export const RequirePreferredOrganization: FC = (props) => {
   const allowPrivate = useSelector(
@@ -25,7 +26,12 @@ export const RequirePreferredOrganization: FC = (props) => {
         <CompactView
           content={
             <>
-              <T keyName={'no-permissions-on-the-server'} />
+                <T
+                    keyName="no-permissions-on-the-server"
+                    params={{
+                        link: <Link href="https://discord.gg/xkVJ73E" target="_blank" />,
+                    }}
+                />
             </>
           }
           title={<T keyName={'no-permissions-title'} />}
