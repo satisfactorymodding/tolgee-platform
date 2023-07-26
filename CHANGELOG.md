@@ -1,3 +1,90 @@
+## [3.24.1](https://github.com/tolgee/tolgee-platform/compare/v3.24.0...v3.24.1) (2023-07-26)
+
+
+### Bug Fixes
+
+* Sign up reporting permission error ([#1825](https://github.com/tolgee/tolgee-platform/issues/1825)) ([af1dad9](https://github.com/tolgee/tolgee-platform/commit/af1dad9d8c0dfc2a813c4b144c135217482ab387))
+
+# [3.24.0](https://github.com/tolgee/tolgee-platform/compare/v3.23.4...v3.24.0) (2023-07-24)
+
+
+### Bug Fixes
+
+* Remove Telemetry from e2e tests ([#1822](https://github.com/tolgee/tolgee-platform/issues/1822)) ([e47b4e5](https://github.com/tolgee/tolgee-platform/commit/e47b4e5fdebb94dfbdce8c16a52656ab85cef9f3))
+
+
+### Features
+
+* billing plans ui ([#1749](https://github.com/tolgee/tolgee-platform/issues/1749)) ([d84b1bc](https://github.com/tolgee/tolgee-platform/commit/d84b1bc9bcad41f208201c1863e9e8917a72a2aa))
+
+## [3.23.4](https://github.com/tolgee/tolgee-platform/compare/v3.23.3...v3.23.4) (2023-07-22)
+
+
+### Bug Fixes
+
+* Estimated usage caching fixes & testing ([#1821](https://github.com/tolgee/tolgee-platform/issues/1821)) ([0f7b17a](https://github.com/tolgee/tolgee-platform/commit/0f7b17a056ef69fe714ee5ccbd82ed6b423831bb))
+
+## [3.23.3](https://github.com/tolgee/tolgee-platform/compare/v3.23.2...v3.23.3) (2023-07-22)
+
+
+### Bug Fixes
+
+* Cache Mt Credits estimated costs ([#1820](https://github.com/tolgee/tolgee-platform/issues/1820)) ([03b3b66](https://github.com/tolgee/tolgee-platform/commit/03b3b6655a2fa66eda56938e35c738fd44daadcb))
+
+## [3.23.2](https://github.com/tolgee/tolgee-platform/compare/v3.23.1...v3.23.2) (2023-07-21)
+
+
+### Bug Fixes
+
+* MT Credit consumption when 0 balance ([#1819](https://github.com/tolgee/tolgee-platform/issues/1819)) ([cc6b6cb](https://github.com/tolgee/tolgee-platform/commit/cc6b6cb9962a0f97a9a73e62806d4ae0adc02b52))
+
+## [3.23.1](https://github.com/tolgee/tolgee-platform/compare/v3.23.0...v3.23.1) (2023-07-21)
+
+
+### Bug Fixes
+
+* Disable importing with any project permission ([#1818](https://github.com/tolgee/tolgee-platform/issues/1818)) ([4776cba](https://github.com/tolgee/tolgee-platform/commit/4776cba67e7bb8c1b0259376e3e5fa3bb46e45c7))
+* Report sign up page opened ([#1817](https://github.com/tolgee/tolgee-platform/issues/1817)) ([02f04bb](https://github.com/tolgee/tolgee-platform/commit/02f04bbb0a710132cfcfcc6b5cf29131d6c85e87))
+
+# [3.23.0](https://github.com/tolgee/tolgee-platform/compare/v3.22.0...v3.23.0) (2023-07-20)
+
+
+### Features
+
+* Add telemetry collection ([#1814](https://github.com/tolgee/tolgee-platform/issues/1814)) ([40d130d](https://github.com/tolgee/tolgee-platform/commit/40d130ddc4de0996f6e06fc368976bd23592ca4f))
+
+# [3.22.0](https://github.com/tolgee/tolgee-platform/compare/v3.21.1...v3.22.0) (2023-07-19)
+
+
+### Bug Fixes
+
+* Incorrect integrations docs links ([#1810](https://github.com/tolgee/tolgee-platform/issues/1810)) ([6dde2bc](https://github.com/tolgee/tolgee-platform/commit/6dde2bc3c3f347bc6780e6bfa4c753c5d428ec6d))
+* Update Tolgee MT engine name ([#1813](https://github.com/tolgee/tolgee-platform/issues/1813)) ([f6a9de1](https://github.com/tolgee/tolgee-platform/commit/f6a9de18bccf3d48a09341cdfbe18e1578a009da))
+
+
+### Features
+
+* Documentation for the Unreal Engine integration  ([#1742](https://github.com/tolgee/tolgee-platform/issues/1742)) ([2217a0c](https://github.com/tolgee/tolgee-platform/commit/2217a0c81c146219bb4bdb2aa6e2f2f9d7ac5eaf))
+
+## [3.21.1](https://github.com/tolgee/tolgee-platform/compare/v3.21.0...v3.21.1) (2023-07-17)
+
+
+### Bug Fixes
+
+* Cors error when PUT request ([#1806](https://github.com/tolgee/tolgee-platform/issues/1806)) ([de2c231](https://github.com/tolgee/tolgee-platform/commit/de2c23161a5b7e70955de631865b8a116fbd9e67))
+
+# [3.21.0](https://github.com/tolgee/tolgee-platform/compare/v3.20.7...v3.21.0) (2023-07-13)
+
+
+### Bug Fixes
+
+* prevent unsaved changes loss ([#1786](https://github.com/tolgee/tolgee-platform/issues/1786)) ([02b6808](https://github.com/tolgee/tolgee-platform/commit/02b6808d243bae09804521b6fea068983441b52f))
+
+
+### Features
+
+* PostHog integration ([#1788](https://github.com/tolgee/tolgee-platform/issues/1788)) ([a006016](https://github.com/tolgee/tolgee-platform/commit/a00601699b242d121d09aa582b85b60f34ae6631))
+
 ## [3.20.7](https://github.com/tolgee/tolgee-platform/compare/v3.20.6...v3.20.7) (2023-07-04)
 
 

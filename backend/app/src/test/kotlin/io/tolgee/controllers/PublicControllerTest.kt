@@ -1,22 +1,32 @@
 package io.tolgee.controllers
 
+import com.posthog.java.PostHog
 import io.tolgee.dtos.misc.CreateProjectInvitationParams
 import io.tolgee.dtos.request.auth.SignUpDto
 import io.tolgee.fixtures.andAssertResponse
 import io.tolgee.fixtures.andIsBadRequest
 import io.tolgee.fixtures.andIsOk
 import io.tolgee.fixtures.generateUniqueString
+import io.tolgee.fixtures.waitForNotThrowing
 import io.tolgee.model.enums.ProjectPermissionType
 import io.tolgee.testing.AbstractControllerTest
+import io.tolgee.testing.assert
 import io.tolgee.testing.assertions.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito
+import org.mockito.kotlin.any
+import org.mockito.kotlin.argThat
+import org.mockito.kotlin.eq
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.http.HttpHeaders
 import kotlin.properties.Delegates
 
-@SpringBootTest
 @AutoConfigureMockMvc
 class PublicControllerTest :
   AbstractControllerTest() {
@@ -25,6 +35,7 @@ class PublicControllerTest :
 
   @BeforeEach
   fun setup() {
+    Mockito.reset(postHog)
     canCreateOrganizations = tolgeeProperties.authentication.userCanCreateOrganizations
   }
 
@@ -32,6 +43,10 @@ class PublicControllerTest :
   fun tearDown() {
     tolgeeProperties.authentication.userCanCreateOrganizations = canCreateOrganizations
   }
+
+  @MockBean
+  @Autowired
+  lateinit var postHog: PostHog
 
   @Test
   fun `creates organization`() {
@@ -50,6 +65,35 @@ class PublicControllerTest :
     val dto = SignUpDto(name = "Pavel Novak", password = "aaaaaaaaa", email = "aaaa@aaaa.com")
     performPost("/api/public/sign_up", dto).andIsOk
     assertThat(organizationRepository.findAllByName("Pavel Novak")).hasSize(1)
+  }
+
+  @Test
+  fun `logs event to external monitor`() {
+    val dto = SignUpDto(name = "Pavel Novak", password = "aaaaaaaaa", email = "aaaa@aaaa.com")
+    performPost(
+      "/api/public/sign_up",
+      dto,
+      HttpHeaders().also {
+        it["X-Tolgee-Utm"] = "eyJ1dG1faGVsbG8iOiJoZWxsbyJ9"
+        // hypothetically every endpoint might be triggered from SDK
+        it["X-Tolgee-SDK-Type"] = "Unreal"
+        it["X-Tolgee-SDK-Version"] = "1.0.0"
+      }
+    ).andIsOk
+
+    var params: Map<String, Any?>? = null
+    waitForNotThrowing(timeout = 10000) {
+      verify(postHog, times(1)).capture(
+        any(), eq("SIGN_UP"),
+        argThat {
+          params = this
+          true
+        }
+      )
+    }
+    params!!["utm_hello"].assert.isEqualTo("hello")
+    params!!["sdkType"].assert.isEqualTo("Unreal")
+    params!!["sdkVersion"].assert.isEqualTo("1.0.0")
   }
 
   @Test

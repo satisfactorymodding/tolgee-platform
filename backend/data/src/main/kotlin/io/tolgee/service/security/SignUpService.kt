@@ -20,7 +20,7 @@ class SignUpService(
   private val tolgeeProperties: TolgeeProperties,
   private val tokenProvider: JwtTokenProvider,
   private val emailVerificationService: EmailVerificationService,
-  private val organizationService: OrganizationService
+  private val organizationService: OrganizationService,
 ) {
   @Transactional
   fun signUp(dto: SignUpDto): JwtAuthenticationResponse? {
@@ -41,7 +41,6 @@ class SignUpService(
     }
 
     val canCreateOrganization = tolgeeProperties.authentication.userCanCreateOrganizations
-
     if (canCreateOrganization && (invitation == null || !dto.organizationName.isNullOrBlank())) {
       val name = if (dto.organizationName.isNullOrBlank()) user.name else dto.organizationName!!
       organizationService.createPreferred(user, name)
@@ -52,6 +51,7 @@ class SignUpService(
     }
 
     emailVerificationService.createForUser(user, dto.callbackUrl)
+
     return null
   }
 }

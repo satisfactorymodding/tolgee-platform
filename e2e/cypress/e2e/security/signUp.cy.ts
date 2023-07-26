@@ -12,6 +12,7 @@ import {
   getUser,
   login,
   logout,
+  releaseForcedDate,
   setProperty,
   setRecaptchaSecretKey,
   setRecaptchaSiteKey,
@@ -19,6 +20,9 @@ import {
 } from '../../common/apiCalls/common';
 import { assertMessage } from '../../common/shared';
 import {
+  checkAnonymousIdSet,
+  checkAnonymousIdUnset,
+  checkAnonymousUserIdentified,
   fillAndSubmitSignUpForm,
   loginWithFakeGithub,
   signUpAfter,
@@ -60,6 +64,7 @@ context('Sign up', () => {
   let recaptchaSiteKey;
 
   beforeEach(() => {
+    releaseForcedDate();
     getRecaptchaSiteKey().then((it) => (recaptchaSiteKey = it));
     logout();
     visitSignUp();
@@ -79,6 +84,7 @@ context('Sign up', () => {
     });
 
     it('Signs up without recaptcha', () => {
+      checkAnonymousIdSet();
       visitSignUp();
       cy.intercept('/**/sign_up', (req) => {
         expect(req.body.recaptchaToken).be.undefined;
@@ -104,6 +110,7 @@ context('Sign up', () => {
   });
 
   it('Signs up', () => {
+    checkAnonymousIdSet();
     cy.intercept('/**/sign_up', (req) => {
       expect(req.body.recaptchaToken).have.length.greaterThan(10);
     }).as('signUp');
@@ -122,6 +129,8 @@ context('Sign up', () => {
       cy.visit(r.verifyEmailLink);
       assertMessage('Email was verified');
     });
+    checkAnonymousIdUnset();
+    checkAnonymousUserIdentified();
   });
 
   it('Signs up without email verification', () => {

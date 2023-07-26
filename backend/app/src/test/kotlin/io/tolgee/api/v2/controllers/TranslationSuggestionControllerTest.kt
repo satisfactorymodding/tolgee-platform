@@ -84,9 +84,10 @@ class TranslationSuggestionControllerTest : ProjectAuthControllerTest("/v2/proje
   @MockBean
   lateinit var tolgeeTranslateApiService: TolgeeTranslateApiService
 
+  @Suppress("LateinitVarOverridesLateinitVar")
   @Autowired
   @MockBean
-  lateinit var cacheManager: CacheManager
+  override lateinit var cacheManager: CacheManager
 
   lateinit var cacheMock: Cache
 
@@ -392,6 +393,27 @@ class TranslationSuggestionControllerTest : ProjectAuthControllerTest("/v2/proje
       node("params[0]").isEqualTo("0")
       node("params[1]").isEqualTo("0")
     }
+  }
+
+  @Test
+  @ProjectJWTAuthTestMethod
+  fun `it consumes last positive credits, next time throws exception`() {
+    mockDefaultMtBucketSize(200)
+    saveTestData()
+    performAuthPost(
+      "/v2/projects/${project.id}/suggest/machine-translations",
+      SuggestRequestDto(keyId = testData.beautifulKey.id, targetLanguageId = testData.germanLanguage.id)
+    ).andIsOk.andPrettyPrint.andAssertThatJson {
+      node("machineTranslations") {
+        node("GOOGLE").isEqualTo("Translated with Google")
+      }
+      node("translationCreditsBalanceBefore").isEqualTo(2)
+      node("translationCreditsBalanceAfter").isEqualTo(0)
+    }
+    performAuthPost(
+      "/v2/projects/${project.id}/suggest/machine-translations",
+      SuggestRequestDto(keyId = testData.beautifulKey.id, targetLanguageId = testData.germanLanguage.id)
+    ).andIsBadRequest
   }
 
   @Test

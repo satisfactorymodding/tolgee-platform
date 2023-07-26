@@ -1,5 +1,7 @@
 package io.tolgee.service.export
 
+import io.tolgee.component.reporting.BusinessEventPublisher
+import io.tolgee.component.reporting.OnBusinessEventToCaptureEvent
 import io.tolgee.constants.Message
 import io.tolgee.dtos.request.export.ExportParams
 import io.tolgee.exceptions.NotFoundException
@@ -9,13 +11,15 @@ import io.tolgee.service.export.dataProvider.ExportTranslationView
 import io.tolgee.service.project.ProjectService
 import org.springframework.stereotype.Service
 import java.io.InputStream
+import java.time.Duration
 import javax.persistence.EntityManager
 
 @Service
 class ExportService(
   private val fileExporterFactory: FileExporterFactory,
   private val projectService: ProjectService,
-  private val entityManager: EntityManager
+  private val entityManager: EntityManager,
+  private val businessEventPublisher: BusinessEventPublisher
 ) {
   fun export(projectId: Long, exportParams: ExportParams): Map<String, InputStream> {
     val data = getDataForExport(projectId, exportParams)
@@ -31,7 +35,15 @@ class ExportService(
       exportParams = exportParams,
       baseTranslationsProvider = baseTranslationsProvider,
       baseLanguage
-    ).produceFiles()
+    ).produceFiles().also {
+      businessEventPublisher.publishOnceInTime(
+        OnBusinessEventToCaptureEvent(
+          eventName = "EXPORT",
+          projectId = projectId
+        ),
+        Duration.ofDays(1)
+      )
+    }
   }
 
   /**
