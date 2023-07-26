@@ -26,12 +26,14 @@ export const RequirePreferredOrganization: FC = (props) => {
         <CompactView
           content={
             <>
-                <T
-                    keyName="no-permissions-on-the-server"
-                    params={{
-                        link: <Link href="https://discord.gg/xkVJ73E" target="_blank" />,
-                    }}
-                />
+              <T
+                keyName="no-permissions-on-the-server"
+                params={{
+                  link: (
+                    <Link href="https://discord.gg/xkVJ73E" target="_blank" />
+                  ),
+                }}
+              />
             </>
           }
           title={<T keyName={'no-permissions-title'} />}
